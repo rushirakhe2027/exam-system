@@ -369,12 +369,12 @@ def detect_looking_away(frame):
         direction = "center"
         if abs(avg_gaze_x) > abs(avg_gaze_y):
             if avg_gaze_x > 0.015:  # Looking right
-            direction = "right"
+                direction = "right"
             elif avg_gaze_x < -0.015:  # Looking left
                 direction = "left"
         else:
             if avg_gaze_y > 0.01:  # Looking down
-            direction = "down"
+                direction = "down"
             elif avg_gaze_y < -0.01:  # Looking up
                 direction = "up"
         
