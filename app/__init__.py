@@ -17,7 +17,7 @@ socketio = SocketIO()
 
 @login_manager.user_loader
 def load_user(user_id):
-    return MongoManager.get_user_by_id(user_id)
+    return MongoManager.get_user_with_class_info(user_id)
 
 def create_app():
     app = Flask(__name__)

@@ -217,6 +217,31 @@ class MongoManager:
             return None
 
     @staticmethod
+    def get_user_with_class_info(user_id):
+        """Get user by ID with class information populated"""
+        try:
+            user_data = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+            if not user_data:
+                return None
+            
+            user = User.from_db(user_data)
+            if user and user.role == 'student':
+                # Get the student's class information
+                class_data = mongo.db.classes.find_one({'students': ObjectId(user_id)})
+                if class_data:
+                    user.class_info = {
+                        'id': str(class_data['_id']),
+                        'name': class_data['name']
+                    }
+                else:
+                    user.class_info = None
+            
+            return user
+        except Exception as e:
+            print(f"Get User with Class Info Error: {str(e)}")
+            return None
+
+    @staticmethod
     def get_user_by_email(email):
         try:
             user_data = mongo.db.users.find_one({'email': email})
