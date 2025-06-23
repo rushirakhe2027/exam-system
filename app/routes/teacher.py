@@ -847,23 +847,42 @@ def add_student():
             'role': 'student'  # Ensure role is set
         }
         
+        print(f"\n=== CREATING STUDENT ===")
+        print(f"Student data: {student_data}")
+        print(f"Class ID from form: {class_id}")
+        
         student = MongoManager.create_student(student_data)
         
         if not student:
             flash('Failed to create student!', 'error')
             return redirect(url_for('teacher.students'))
         
+        print(f"Student created with ID: {student.id}")
+        
         # Add student to class if specified
         if class_id:
+            print(f"Attempting to add student to class {class_id}")
             class_obj = MongoManager.get_class_by_id(class_id)
-            if class_obj and str(class_obj.teacher_id) == str(current_user.id):
-                if MongoManager.add_student_to_class(class_id, str(student.id)):
-                    flash(f'Student added successfully and assigned to class!', 'success')
+            print(f"Class object: {class_obj}")
+            
+            if class_obj:
+                print(f"Class teacher ID: {class_obj.teacher_id}, Current user ID: {current_user.id}")
+                print(f"Teacher match: {str(class_obj.teacher_id) == str(current_user.id)}")
+                
+                if str(class_obj.teacher_id) == str(current_user.id):
+                    add_result = MongoManager.add_student_to_class(class_id, str(student.id))
+                    print(f"Add to class result: {add_result}")
+                    
+                    if add_result:
+                        flash(f'Student added successfully and assigned to class "{class_obj.name}"!', 'success')
+                    else:
+                        flash('Student created but could not be added to class!', 'warning')
                 else:
-                    flash('Student created but could not be added to class!', 'warning')
+                    flash('Student created but invalid class specified!', 'warning')
             else:
-                flash('Student created but invalid class specified!', 'warning')
+                flash('Student created but class not found!', 'warning')
         else:
+            print("No class ID provided")
             flash('Student added successfully!', 'success')
         
         return redirect(url_for('teacher.students'))
