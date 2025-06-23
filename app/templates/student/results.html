@@ -2,7 +2,7 @@
 
 {% block title %}My Results - ExamPro{% endblock %}
 
-{% block page_title %}My Results{% endblock %}
+{% block page_title %}Exam Results{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
@@ -10,57 +10,134 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title mb-4">Exam Results</h5>
+                    <h5 class="card-title mb-4">
+                        <i class="fas fa-chart-line me-2"></i>Graded Exam Results
+                    </h5>
+                    
                     {% if submissions %}
-                        <div class="list-group">
-                            {% for submission in submissions %}
-                            {% if submission.is_graded and submission.score is not none %}
-                            <div class="list-group-item">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h6 class="mb-1">{{ submission.exam.title }}</h6>
-                                        <small class="text-muted">
-                                            Submitted: {{ submission.submitted_at.strftime('%B %d, %Y at %I:%M %p') }}
-                                        </small>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="text-end">
-                                            <!-- Show Grade with 3-tier system -->
-                                            <div class="h5 mb-0 {% if submission.score >= 70 %}text-success{% elif submission.score >= 30 %}text-warning{% else %}text-danger{% endif %}">
-                                                {% if submission.score >= 70 %}
-                                                    Grade A
-                                                {% elif submission.score >= 30 %}
-                                                    Grade B
-                                                {% else %}
-                                                    Grade F
-                                                {% endif %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Exam Title</th>
+                                        <th>Submitted</th>
+                                        <th>Score</th>
+                                        <th>Grade</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for submission in submissions %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-file-alt text-primary me-2"></i>
+                                                <div>
+                                                    <h6 class="mb-0">{{ submission.exam.title }}</h6>
+                                                    <small class="text-muted">{{ submission.exam.exam_format|title }} Exam</small>
+                                                </div>
                                             </div>
-                                            <small class="text-muted">{{ "%.1f"|format(submission.score) }}% Score</small>
+                                        </td>
+                                        <td>
+                                            <small class="text-muted">
+                                                {{ submission.submitted_at.strftime('%b %d, %Y') }}<br>
+                                                {{ submission.submitted_at.strftime('%I:%M %p') }}
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <span class="fw-bold">
+                                                {% if submission.score is not none %}
+                                                    {{ "%.1f"|format(submission.score) }}%
+                                                {% else %}
+                                                    N/A
+                                                {% endif %}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-{{ submission.grade_color }} fs-6 px-3 py-2">
+                                                Grade {{ submission.grade }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if submission.pass_status == 'PASS' %}
+                                                <span class="badge bg-success">
+                                                    <i class="fas fa-check me-1"></i>{{ submission.pass_status }}
+                                                </span>
+                                            {% elif submission.pass_status == 'FAIL' %}
+                                                <span class="badge bg-danger">
+                                                    <i class="fas fa-times me-1"></i>{{ submission.pass_status }}
+                                                </span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">
+                                                    <i class="fas fa-clock me-1"></i>{{ submission.pass_status }}
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ url_for('student.submission_result', submission_id=submission.id) }}" 
+                                               class="btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-eye me-1"></i>View Details
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Results Summary -->
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">
+                                            <i class="fas fa-chart-pie me-2"></i>Results Summary
+                                        </h6>
+                                        <div class="row text-center">
+                                            {% set grade_a_count = submissions | selectattr('grade', 'equalto', 'A') | list | length %}
+                                            {% set grade_b_count = submissions | selectattr('grade', 'equalto', 'B') | list | length %}
+                                            {% set grade_f_count = submissions | selectattr('grade', 'equalto', 'F') | list | length %}
+                                            {% set total_graded = submissions | length %}
+                                            
+                                            <div class="col-md-3">
+                                                <div class="text-success">
+                                                    <h4 class="mb-0">{{ grade_a_count }}</h4>
+                                                    <small>Grade A (≥70%)</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="text-warning">
+                                                    <h4 class="mb-0">{{ grade_b_count }}</h4>
+                                                    <small>Grade B (35-69%)</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="text-danger">
+                                                    <h4 class="mb-0">{{ grade_f_count }}</h4>
+                                                    <small>Grade F (<35%)</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="text-primary">
+                                                    <h4 class="mb-0">{{ total_graded }}</h4>
+                                                    <small>Total Graded</small>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <a href="{{ url_for('student.view_submission', submission_id=submission.id) }}" class="btn btn-outline-primary btn-sm">
-                                            View Details
-                                        </a>
                                     </div>
                                 </div>
                             </div>
-                            {% endif %}
-                            {% endfor %}
                         </div>
                         
-                        <!-- Check if there are any graded submissions -->
-                        {% set graded_submissions = submissions | selectattr('is_graded', 'equalto', true) | selectattr('score', 'ne', none) | list %}
-                        {% if not graded_submissions %}
-                        <div class="text-center py-5">
-                            <i class="fas fa-hourglass-half fa-3x text-muted mb-3"></i>
-                            <h5 class="text-muted">No graded results yet</h5>
-                            <p class="text-muted">Your exam submissions are being reviewed. Results will appear here once grading is complete.</p>
-                        </div>
-                        {% endif %}
                     {% else %}
                         <div class="text-center py-5">
-                            <i class="fas fa-chart-bar fa-3x text-muted mb-3"></i>
-                            <h5 class="text-muted">No results yet</h5>
-                            <p class="text-muted">You don't have any graded exams yet.</p>
+                            <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No graded results yet</h5>
+                            <p class="text-muted">Your exam submissions are being reviewed. Results will appear here once grading is complete.</p>
+                            <a href="{{ url_for('student.exams') }}" class="btn btn-primary mt-3">
+                                <i class="fas fa-plus me-2"></i>Take an Exam
+                            </a>
                         </div>
                     {% endif %}
                 </div>
@@ -68,4 +145,30 @@
         </div>
     </div>
 </div>
+
+<style>
+.table th {
+    border-top: none;
+    font-weight: 600;
+    color: #495057;
+}
+
+.badge {
+    font-size: 0.875rem;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.025);
+}
+
+.text-success h4 { color: #198754 !important; }
+.text-warning h4 { color: #ffc107 !important; }
+.text-danger h4 { color: #dc3545 !important; }
+.text-primary h4 { color: #0d6efd !important; }
+</style>
 {% endblock %} 

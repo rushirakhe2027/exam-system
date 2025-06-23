@@ -104,21 +104,12 @@ Detailed Results Type: {{ submission.detailed_results.__class__.__name__ if subm
                             </div>
                         </div>
                         <div class="col-md-3">
-                            {% if percentage >= 90 %}
-                                {% set grade = 'A+' %}
-                                {% set grade_bg = 'bg-success' %}
-                            {% elif percentage >= 80 %}
+                            {% if percentage >= 70 %}
                                 {% set grade = 'A' %}
                                 {% set grade_bg = 'bg-success' %}
-                            {% elif percentage >= 70 %}
-                                {% set grade = 'B+' %}
-                                {% set grade_bg = 'bg-warning' %}
-                            {% elif percentage >= 60 %}
+                            {% elif percentage >= 35 %}
                                 {% set grade = 'B' %}
                                 {% set grade_bg = 'bg-warning' %}
-                            {% elif percentage >= 35 %}
-                                {% set grade = 'C' %}
-                                {% set grade_bg = 'bg-info' %}
                             {% else %}
                                 {% set grade = 'F' %}
                                 {% set grade_bg = 'bg-danger' %}

@@ -369,12 +369,12 @@ def detect_looking_away(frame):
         direction = "center"
         if abs(avg_gaze_x) > abs(avg_gaze_y):
             if avg_gaze_x > 0.015:  # Looking right
-                direction = "right"
+            direction = "right"
             elif avg_gaze_x < -0.015:  # Looking left
                 direction = "left"
         else:
             if avg_gaze_y > 0.01:  # Looking down
-                direction = "down"
+            direction = "down"
             elif avg_gaze_y < -0.01:  # Looking up
                 direction = "up"
         
@@ -608,7 +608,7 @@ def take_exam(exam_id):
                 if question:
                     questions_to_display.append(question)
                     print(f"Successfully processed question {question.id}")
-                else:
+    else:
                     print(f"Failed to process question data: {q_data}")
             else:
                 # Already a Question object
@@ -637,9 +637,9 @@ def take_exam(exam_id):
     start_time_key = f'exam_{exam_id}_start_time'
     if start_time_key not in session:
         # Fresh start - clear any old data and set start time
-        session.pop(f'exam_{exam_id}_answers', None)
+    session.pop(f'exam_{exam_id}_answers', None)
         session[start_time_key] = datetime.utcnow().isoformat()
-        session.modified = True
+    session.modified = True
     
     # Get saved answers (will be empty for fresh start, preserved for continuation)
     saved_answers = session.get(f'exam_{exam_id}_answers', {})
@@ -656,16 +656,16 @@ def take_exam(exam_id):
 @student_required
 def submission_result(submission_id):
     try:
-        submission = MongoManager.get_submission_by_id(submission_id)
-        if not submission or submission.student_id != current_user.id:
-            flash('Submission not found.', 'error')
-            return redirect(url_for('student.submissions'))
-        
-        exam = MongoManager.get_exam_by_id(submission.exam_id)
-        if not exam:
-            flash('Exam not found.', 'error')
-            return redirect(url_for('student.submissions'))
-        
+    submission = MongoManager.get_submission_by_id(submission_id)
+    if not submission or submission.student_id != current_user.id:
+        flash('Submission not found.', 'error')
+        return redirect(url_for('student.submissions'))
+    
+    exam = MongoManager.get_exam_by_id(submission.exam_id)
+    if not exam:
+        flash('Exam not found.', 'error')
+        return redirect(url_for('student.submissions'))
+    
         # Handle simple dictionary format: question_id -> answer_text
         processed_answers = []
         
@@ -727,9 +727,9 @@ def submission_result(submission_id):
         # Also store processed answers for detailed display
         submission.processed_answers = processed_answers
         
-        return render_template('student/submission_result.html',
-                             exam=exam,
-                             submission=submission)
+    return render_template('student/submission_result.html',
+                         exam=exam,
+                         submission=submission)
     
     except Exception as e:
         logger.error(f"Error loading submission {submission_id}: {str(e)}")
@@ -873,13 +873,34 @@ def submissions():
 @login_required
 @student_required
 def results():
-    submissions = MongoManager.get_student_submissions(current_user.id)
+    # Get only graded submissions for results page
+    submissions = MongoManager.get_graded_submissions(current_user.id)
     
     if submissions:
         for submission in submissions:
             try:
                 exam = MongoManager.get_exam_by_id(submission.exam_id)
                 submission.exam = exam
+                
+                # Calculate grade based on score using 3-tier system
+                if hasattr(submission, 'score') and submission.score is not None:
+                    if submission.score >= 70:
+                        submission.grade = 'A'
+                        submission.grade_color = 'success'
+                        submission.pass_status = 'PASS'
+                    elif submission.score >= 35:
+                        submission.grade = 'B' 
+                        submission.grade_color = 'warning'
+                        submission.pass_status = 'PASS'
+                    else:
+                        submission.grade = 'F'
+                        submission.grade_color = 'danger'
+                        submission.pass_status = 'FAIL'
+                else:
+                    submission.grade = 'Pending'
+                    submission.grade_color = 'secondary'
+                    submission.pass_status = 'Pending'
+                    
             except Exception as e:
                 logger.error(f"Error fetching exam for submission {submission.id}: {str(e)}")
                 class PlaceholderExam:
@@ -887,6 +908,9 @@ def results():
                         self.title = "Exam Not Found"
                         self.id = submission.exam_id
                 submission.exam = PlaceholderExam()
+                submission.grade = 'Error'
+                submission.grade_color = 'danger'
+                submission.pass_status = 'Error'
     
     return render_template('student/results.html', submissions=submissions)
 
@@ -1093,9 +1117,9 @@ def submit_exam(exam_id):
         
         # Create submission object safely
         try:
-            submission = Submission(**submission_data)
+        submission = Submission(**submission_data)
             print(f"Created Submission object with answers: {len(submission.answers)} items")
-            submission_id = MongoManager.create_submission(submission)
+        submission_id = MongoManager.create_submission(submission)
             print(f"MongoManager.create_submission returned: {submission_id}")
         except Exception as create_error:
             print(f"Error creating submission: {str(create_error)}")
@@ -1182,7 +1206,7 @@ def save_answer(exam_id):
         if not data:
             print("ERROR: No data provided")
             return jsonify({'success': False, 'message': 'No data provided'}), 400
-
+        
         question_id = data.get('question_id')
         answer = data.get('answer')
         
@@ -1191,7 +1215,7 @@ def save_answer(exam_id):
         if question_id is None:
             print("ERROR: Question ID missing")
             return jsonify({'success': False, 'message': 'Question ID required'}), 400
-
+        
         # Save to session
         answers_key = f'exam_{exam_id}_answers'
         if answers_key not in session:
@@ -1507,7 +1531,7 @@ def procrastination_check(exam_id):
                 response_data['alertMessage'] = f"Warning {new_warning_count}/20: {high_severity_violations[0]['message']}"
         
         return jsonify(response_data)
-    
+
     except Exception as e:
         logger.error(f"Error in procrastination check: {str(e)}")
         return jsonify({'success': False, 'message': 'Error processing procrastination check'}), 500
@@ -1571,7 +1595,7 @@ def auto_grade_objective_exam(exam, user_answers, session_questions=None):
             # Handle both dict and Question object formats
             if isinstance(question, dict):
                 question_id = str(question.get('_id') or question.get('id', ''))
-                question_marks = question.get('marks', 1)
+            question_marks = question.get('marks', 1)
                 correct_answer = question.get('correct_answer')
                 question_type = question.get('question_type', 'multiple_choice')
             else:
@@ -1610,7 +1634,7 @@ def auto_grade_objective_exam(exam, user_answers, session_questions=None):
                     correct_answers += 1
                     earned_marks += question_marks
                     print(f"✅ Correct answer for question {question_id}")
-                else:
+        else:
                     print(f"❌ Wrong answer for question {question_id}")
         
         # Calculate final score
