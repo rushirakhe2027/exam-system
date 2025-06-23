@@ -652,20 +652,20 @@ def take_exam(exam_id):
                          saved_answers=saved_answers)
 
 @student_bp.route('/submission/<submission_id>')
-@login_required
+        submission = MongoManager.get_submission_by_id(submission_id)
 @student_required
 def submission_result(submission_id):
     try:
-    submission = MongoManager.get_submission_by_id(submission_id)
-    if not submission or submission.student_id != current_user.id:
-        flash('Submission not found.', 'error')
-        return redirect(url_for('student.submissions'))
-    
-    exam = MongoManager.get_exam_by_id(submission.exam_id)
-    if not exam:
-        flash('Exam not found.', 'error')
-        return redirect(url_for('student.submissions'))
-    
+        submission = MongoManager.get_submission_by_id(submission_id)
+        if not submission or submission.student_id != current_user.id:
+            flash('Submission not found.', 'error')
+            return redirect(url_for('student.submissions'))
+        
+        exam = MongoManager.get_exam_by_id(submission.exam_id)
+        if not exam:
+            flash('Exam not found.', 'error')
+            return redirect(url_for('student.submissions'))
+        
         # Handle simple dictionary format: question_id -> answer_text
         processed_answers = []
         
