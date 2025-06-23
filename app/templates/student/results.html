@@ -1,0 +1,71 @@
+{% extends "student/base.html" %}
+
+{% block title %}My Results - ExamPro{% endblock %}
+
+{% block page_title %}My Results{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Exam Results</h5>
+                    {% if submissions %}
+                        <div class="list-group">
+                            {% for submission in submissions %}
+                            {% if submission.is_graded and submission.score is not none %}
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">{{ submission.exam.title }}</h6>
+                                        <small class="text-muted">
+                                            Submitted: {{ submission.submitted_at.strftime('%B %d, %Y at %I:%M %p') }}
+                                        </small>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="text-end">
+                                            <!-- Show Grade with 3-tier system -->
+                                            <div class="h5 mb-0 {% if submission.score >= 70 %}text-success{% elif submission.score >= 30 %}text-warning{% else %}text-danger{% endif %}">
+                                                {% if submission.score >= 70 %}
+                                                    Grade A
+                                                {% elif submission.score >= 30 %}
+                                                    Grade B
+                                                {% else %}
+                                                    Grade F
+                                                {% endif %}
+                                            </div>
+                                            <small class="text-muted">{{ "%.1f"|format(submission.score) }}% Score</small>
+                                        </div>
+                                        <a href="{{ url_for('student.view_submission', submission_id=submission.id) }}" class="btn btn-outline-primary btn-sm">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Check if there are any graded submissions -->
+                        {% set graded_submissions = submissions | selectattr('is_graded', 'equalto', true) | selectattr('score', 'ne', none) | list %}
+                        {% if not graded_submissions %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-hourglass-half fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No graded results yet</h5>
+                            <p class="text-muted">Your exam submissions are being reviewed. Results will appear here once grading is complete.</p>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-chart-bar fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No results yet</h5>
+                            <p class="text-muted">You don't have any graded exams yet.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

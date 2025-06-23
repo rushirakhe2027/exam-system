@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test - F12 Access</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .debug-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .info { color: #007bff; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-box">
+        <h1>🔧 Debug Test Page</h1>
+        <p class="success">✅ F12 Developer Tools Access: ENABLED</p>
+        <p class="info">📝 Instructions:</p>
+        <ol>
+            <li>Press <strong>F12</strong> to open Developer Tools</li>
+            <li>Go to the <strong>Console</strong> tab</li>
+            <li>Click the buttons below to test logging</li>
+            <li>Check for detailed debug messages</li>
+        </ol>
+    </div>
+
+    <div class="debug-box">
+        <h2>Test Buttons</h2>
+        <button onclick="testConsoleLog()">Test Console Log</button>
+        <button onclick="testSaveAnswer()">Test Save Answer</button>
+        <button onclick="testError()">Test Error Handling</button>
+        <button onclick="clearConsole()">Clear Console</button>
+    </div>
+
+    <div class="debug-box">
+        <h2>Live Debug Output</h2>
+        <div id="debugOutput" style="background: #000; color: #0f0; padding: 15px; font-family: monospace; min-height: 200px; overflow-y: auto;">
+            <div>🔧 Debug console ready...</div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize debugging
+        console.log('🔧 ===============================================');
+        console.log('🔧 DEBUG TEST PAGE LOADED');
+        console.log('🔧 F12 Developer Tools: ENABLED');
+        console.log('🔧 Console Logging: ACTIVE');
+        console.log('🔧 ===============================================');
+
+        // Add debug output to page
+        function addDebugOutput(message, type = 'info') {
+            const output = document.getElementById('debugOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.innerHTML = `[${timestamp}] ${message}`;
+            if (type === 'error') div.style.color = '#ff4444';
+            if (type === 'success') div.style.color = '#44ff44';
+            if (type === 'warning') div.style.color = '#ffaa44';
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // Test functions
+        function testConsoleLog() {
+            console.log('🧪 TEST: Console logging working!');
+            console.warn('🧪 TEST: Warning message');
+            console.error('🧪 TEST: Error message (this is just a test)');
+            console.info('🧪 TEST: Info message');
+            addDebugOutput('✅ Console log test completed - check browser console (F12)', 'success');
+        }
+
+        function testSaveAnswer() {
+            console.log('🧪 TEST: Simulating save answer request...');
+            
+            // Simulate the save answer request
+            const testData = {
+                question_id: 'test_123',
+                answer: 'Test answer for debugging'
+            };
+            
+            console.log('🧪 TEST: Request data:', testData);
+            addDebugOutput('📡 Simulating save answer request...', 'info');
+            
+            // Test fetch to debug endpoint
+            fetch('/student/debug/test-save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(testData)
+            })
+            .then(response => {
+                console.log('🧪 TEST: Response status:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('🧪 TEST: Response data:', data);
+                if (data.success) {
+                    addDebugOutput('✅ Save test successful!', 'success');
+                } else {
+                    addDebugOutput('❌ Save test failed: ' + data.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('🧪 TEST: Error:', error);
+                addDebugOutput('💥 Save test error: ' + error.message, 'error');
+            });
+        }
+
+        function testError() {
+            console.log('🧪 TEST: Testing error handling...');
+            try {
+                // Intentional error for testing
+                throw new Error('Test error for debugging purposes');
+            } catch (error) {
+                console.error('🧪 TEST: Caught error:', error);
+                addDebugOutput('🔴 Test error caught: ' + error.message, 'error');
+            }
+        }
+
+        function clearConsole() {
+            console.clear();
+            document.getElementById('debugOutput').innerHTML = '<div>🔧 Debug console cleared...</div>';
+            console.log('🔧 Console cleared - debugging continues...');
+        }
+
+        // Page load complete
+        addDebugOutput('🚀 Debug test page loaded successfully', 'success');
+        addDebugOutput('👆 Press F12 to open Developer Tools', 'info');
+    </script>
+</body>
+</html> 

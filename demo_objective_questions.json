@@ -1,0 +1,542 @@
+[
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which peripheral is used for PWM generation?",
+        "marks": 2,
+        "options": [
+            "ADC",
+            "UART",
+            "Timer",
+            "I2C"
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of the status register in a microcontroller?",
+        "marks": 2,
+        "options": [
+            "Store program data",
+            "Indicate condition flags",
+            "Generate clock signals",
+            "Handle interrupts"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which communication protocol is synchronous and uses SCK, MOSI, and MISO lines?",
+        "marks": 2,
+        "options": [
+            "UART",
+            "I2C",
+            "SPI",
+            "CAN"
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the main advantage of using interrupts over polling?",
+        "marks": 2,
+        "options": [
+            "Lower power consumption",
+            "Simpler code implementation",
+            "Faster execution speed",
+            "Better reliability"
+        ],
+        "correct_answer": 0
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which memory type is used to store the program in a microcontroller?",
+        "marks": 2,
+        "options": [
+            "RAM",
+            "Flash",
+            "EEPROM",
+            "Cache"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the time complexity of binary search?",
+        "marks": 2,
+        "options": [
+            "O(n)",
+            "O(log n)",
+            "O(n^2)",
+            "O(1)"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which data structure uses LIFO principle?",
+        "marks": 2,
+        "options": [
+            "Queue",
+            "Stack",
+            "Tree",
+            "Graph"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the primary purpose of virtual memory?",
+        "marks": 2,
+        "options": [
+            "Speed up CPU processing",
+            "Extend physical RAM using disk space",
+            "Store temporary variables",
+            "Manage network connections"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which HTTP method is idempotent?",
+        "marks": 2,
+        "options": [
+            "POST",
+            "GET",
+            "PATCH",
+            "DELETE"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of normalization in databases?",
+        "marks": 2,
+        "options": [
+            "Increase data redundancy",
+            "Reduce data redundancy",
+            "Speed up queries",
+            "Increase storage space"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which sorting algorithm has the best average case time complexity?",
+        "marks": 2,
+        "options": [
+            "Bubble Sort",
+            "Quick Sort",
+            "Selection Sort",
+            "Insertion Sort"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of the 'static' keyword in Java?",
+        "marks": 2,
+        "options": [
+            "Create instance variables",
+            "Share variables across instances",
+            "Make variables private",
+            "Create local variables"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which protocol is used for secure email transmission?",
+        "marks": 2,
+        "options": [
+            "HTTP",
+            "SMTP",
+            "SMTPS",
+            "FTP"
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the main advantage of using Docker?",
+        "marks": 2,
+        "options": [
+            "Faster code execution",
+            "Application isolation",
+            "Better security",
+            "Reduced memory usage"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which design pattern is used for database connections?",
+        "marks": 2,
+        "options": [
+            "Observer",
+            "Singleton",
+            "Factory",
+            "Decorator"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of JWT?",
+        "marks": 2,
+        "options": [
+            "Data encryption",
+            "User authentication",
+            "File compression",
+            "Network routing"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which protocol is connectionless?",
+        "marks": 2,
+        "options": [
+            "TCP",
+            "UDP",
+            "HTTP",
+            "FTP"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of a load balancer?",
+        "marks": 2,
+        "options": [
+            "Encrypt data",
+            "Distribute traffic",
+            "Store data",
+            "Compress files"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a pillar of OOP?",
+        "marks": 2,
+        "options": [
+            "Encapsulation",
+            "Inheritance",
+            "Polymorphism",
+            "Compilation"
+        ],
+        "correct_answer": 3
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of a primary key?",
+        "marks": 2,
+        "options": [
+            "Sort data",
+            "Uniquely identify records",
+            "Encrypt data",
+            "Index data"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a valid HTTP status code?",
+        "marks": 2,
+        "options": [
+            "200",
+            "404",
+            "600",
+            "500"
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of garbage collection?",
+        "marks": 2,
+        "options": [
+            "Clean code",
+            "Free unused memory",
+            "Sort data",
+            "Optimize code"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a valid JavaScript data type?",
+        "marks": 2,
+        "options": [
+            "undefined",
+            "boolean",
+            "float",
+            "string"
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of CORS?",
+        "marks": 2,
+        "options": [
+            "Data encryption",
+            "Cross-origin resource sharing",
+            "Code optimization",
+            "Database indexing"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a valid CSS position value?",
+        "marks": 2,
+        "options": [
+            "relative",
+            "absolute",
+            "floating",
+            "fixed"
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of npm?",
+        "marks": 2,
+        "options": [
+            "Network monitoring",
+            "Package management",
+            "Performance testing",
+            "Security scanning"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a valid React hook?",
+        "marks": 2,
+        "options": [
+            "useState",
+            "useEffect",
+            "useData",
+            "useContext"
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of Redis?",
+        "marks": 2,
+        "options": [
+            "Load balancing",
+            "Caching",
+            "Authentication",
+            "Logging"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a valid Git command?",
+        "marks": 2,
+        "options": [
+            "pull",
+            "push",
+            "delete",
+            "commit"
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of webpack?",
+        "marks": 2,
+        "options": [
+            "Testing",
+            "Bundling",
+            "Deployment",
+            "Monitoring"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which protocol is used for secure web browsing?",
+        "marks": 2,
+        "options": [
+            "HTTP",
+            "HTTPS",
+            "FTP",
+            "SMTP"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of TypeScript?",
+        "marks": 2,
+        "options": [
+            "Testing",
+            "Type checking",
+            "Deployment",
+            "Debugging"
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a valid database type?",
+        "marks": 2,
+        "options": [
+            "SQL",
+            "NoSQL",
+            "GraphQL",
+            "NewSQL"
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of Docker Compose?",
+        "marks": 2,
+        "options": [
+            "Container orchestration",
+            "Code compilation",
+            "Data backup",
+            "Network monitoring"
+        ],
+        "correct_answer": 0
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a JavaScript framework?",
+        "marks": 2,
+        "options": [
+            "React",
+            "Angular",
+            "Django",
+            "Vue"
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of nginx?",
+        "marks": 2,
+        "options": [
+            "Web server",
+            "Database",
+            "Cache",
+            "Compiler"
+        ],
+        "correct_answer": 0
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a valid HTTP method?",
+        "marks": 2,
+        "options": [
+            "GET",
+            "POST",
+            "SEND",
+            "PUT"
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of ESLint?",
+        "marks": 2,
+        "options": [
+            "Code linting",
+            "Testing",
+            "Deployment",
+            "Debugging"
+        ],
+        "correct_answer": 0
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a valid CSS preprocessor?",
+        "marks": 2,
+        "options": [
+            "Sass",
+            "Less",
+            "Stylus",
+            "CSS++"
+        ],
+        "correct_answer": 3
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of Jenkins?",
+        "marks": 2,
+        "options": [
+            "CI/CD",
+            "Database",
+            "Frontend",
+            "Backend"
+        ],
+        "correct_answer": 0
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a cloud service provider?",
+        "marks": 2,
+        "options": [
+            "AWS",
+            "Azure",
+            "GCP",
+            "PHP"
+        ],
+        "correct_answer": 3
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of GraphQL?",
+        "marks": 2,
+        "options": [
+            "API query language",
+            "Database",
+            "Frontend framework",
+            "Testing tool"
+        ],
+        "correct_answer": 0
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a version control system?",
+        "marks": 2,
+        "options": [
+            "Git",
+            "SVN",
+            "Mercurial",
+            "Maven"
+        ],
+        "correct_answer": 3
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "What is the purpose of Kubernetes?",
+        "marks": 2,
+        "options": [
+            "Container orchestration",
+            "Frontend development",
+            "Database management",
+            "Code testing"
+        ],
+        "correct_answer": 0
+    },
+    {
+        "question_type": "multiple_choice",
+        "question_text": "Which is not a valid programming paradigm?",
+        "marks": 2,
+        "options": [
+            "Procedural",
+            "Object-oriented",
+            "Functional",
+            "Circular"
+        ],
+        "correct_answer": 3
+    }
+] 

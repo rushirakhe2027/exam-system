@@ -1,0 +1,53 @@
+# Core Flask Framework
+Flask==2.3.3
+Flask-Login==0.6.3
+Flask-PyMongo==2.3.0
+Flask-WTF==1.1.1
+Flask-Session==0.5.0
+Flask-SocketIO==5.3.6
+
+# Database and Storage
+pymongo==4.5.0
+dnspython==2.4.2
+
+# Security and Authentication
+Werkzeug==2.3.7
+bcrypt==4.0.1
+cryptography==41.0.7
+
+# Web Forms and Validation
+WTForms==3.0.1
+email-validator==2.0.0
+
+# Template Engine
+Jinja2==3.1.2
+
+# Utilities
+python-dotenv==1.0.0
+python-dateutil==2.8.2
+pytz==2023.3
+click==8.1.7
+itsdangerous==2.1.2
+blinker==1.6.3
+requests==2.31.0
+
+# Image Processing and Computer Vision
+Pillow==10.0.1
+numpy==1.24.4
+opencv-python==4.8.1.78
+imutils==0.5.4
+scipy==1.11.3
+mediapipe==0.10.7
+
+# Machine Learning
+tensorflow==2.13.0
+
+# Real-time Communication
+python-socketio==5.9.0
+
+# Production Server
+gunicorn==21.2.0
+
+# Development and Testing (Optional)
+pytest==7.4.2
+pytest-cov==4.1.0 

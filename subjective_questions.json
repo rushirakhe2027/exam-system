@@ -1,0 +1,248 @@
+[
+    {
+        "question_type": "subjective",
+        "question_text": "Explain the SOLID principles in object-oriented programming.",
+        "marks": 2,
+        "model_answer": "SOLID principles are:\n1. Single Responsibility: A class should have only one reason to change\n2. Open/Closed: Open for extension, closed for modification\n3. Liskov Substitution: Subtypes must be substitutable for their base types\n4. Interface Segregation: Many specific interfaces better than one general\n5. Dependency Inversion: Depend on abstractions, not concretions"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Compare REST and GraphQL APIs.",
+        "marks": 2,
+        "model_answer": "REST:\n- Multiple endpoints for different resources\n- Fixed response structure\n- Uses standard HTTP methods\n\nGraphQL:\n- Single endpoint\n- Client specifies exact data needs\n- Reduces over-fetching and under-fetching"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain microservices vs monolithic architecture.",
+        "marks": 2,
+        "model_answer": "Microservices:\n- Small, independent services\n- Separate databases\n- Better scalability\n\nMonolithic:\n- Single codebase\n- Shared database\n- Simpler deployment but limited scalability"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe the key components of a CI/CD pipeline.",
+        "marks": 2,
+        "model_answer": "Key CI/CD components:\n1. Source Control (Git)\n2. Build Automation\n3. Automated Testing\n4. Code Quality Analysis\n5. Deployment Automation\n6. Monitoring"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain three common design patterns.",
+        "marks": 2,
+        "model_answer": "1. Singleton: Ensures single instance of class\n2. Observer: Defines one-to-many dependency between objects\n3. Factory: Creates objects without exposing creation logic"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe database normalization forms.",
+        "marks": 2,
+        "model_answer": "1NF: Atomic values, no repeating groups\n2NF: In 1NF, no partial dependencies\n3NF: In 2NF, no transitive dependencies\nBCNF: In 3NF, every determinant is candidate key"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain the CAP theorem.",
+        "marks": 2,
+        "model_answer": "CAP Theorem states distributed systems can only guarantee two of:\n- Consistency: All nodes see same data\n- Availability: Every request gets response\n- Partition Tolerance: System works despite network failures"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe event-driven architecture.",
+        "marks": 2,
+        "model_answer": "Event-driven architecture:\n- Based on events production and consumption\n- Loose coupling between components\n- Asynchronous processing\n- Better scalability and flexibility"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "List key principles of clean code.",
+        "marks": 2,
+        "model_answer": "Clean Code Principles:\n1. Meaningful names\n2. Small, focused functions\n3. DRY (Don't Repeat Yourself)\n4. Proper error handling\n5. Consistent formatting"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain different caching strategies.",
+        "marks": 2,
+        "model_answer": "Caching Strategies:\n1. Cache-Aside: App checks cache first\n2. Write-Through: Write to both cache and DB\n3. Write-Behind: Write to cache, update DB later\n4. Read-Through: Cache manages DB reads"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe OAuth 2.0 flow components.",
+        "marks": 2,
+        "model_answer": "OAuth 2.0 Components:\n1. Resource Owner (user)\n2. Client (application)\n3. Authorization Server (token issuer)\n4. Resource Server (API)\nFlow: Request → Grant → Code → Token → Access"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain containerization benefits.",
+        "marks": 2,
+        "model_answer": "Containerization Benefits:\n1. Portability across platforms\n2. Consistent environments\n3. Resource efficiency\n4. Isolated execution\n5. Quick deployment"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "List responsive web design principles.",
+        "marks": 2,
+        "model_answer": "Responsive Design Principles:\n1. Fluid grids with relative units\n2. Flexible images that scale\n3. Media queries for different screens\n4. Mobile-first approach"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain message queues and use cases.",
+        "marks": 2,
+        "model_answer": "Message Queues:\n- Asynchronous communication\n- Decoupled systems\nUse Cases:\n1. Task processing\n2. Load balancing\n3. Event handling"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe database indexing types.",
+        "marks": 2,
+        "model_answer": "Index Types:\n1. Single-Column: Basic queries\n2. Composite: Multiple columns\n3. Unique: Ensures uniqueness\n4. Clustered: Physical order"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain load balancing algorithms.",
+        "marks": 2,
+        "model_answer": "Load Balancing Algorithms:\n1. Round Robin: Sequential distribution\n2. Least Connection: Based on current load\n3. IP Hash: Based on client IP\n4. Weighted: Based on capacity"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "List secure development principles.",
+        "marks": 2,
+        "model_answer": "Secure Development:\n1. Input validation\n2. Strong authentication\n3. Proper authorization\n4. Data encryption\n5. Secure error handling"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain WCAG accessibility guidelines.",
+        "marks": 2,
+        "model_answer": "WCAG Guidelines:\n1. Perceivable: Alternative text, adaptable\n2. Operable: Keyboard accessible\n3. Understandable: Readable, predictable\n4. Robust: Compatible"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe service discovery in microservices.",
+        "marks": 2,
+        "model_answer": "Service Discovery:\n1. Service Registry: Maintains service database\n2. Service Provider: Registers itself\n3. Service Consumer: Discovers services\n4. Load Balancer: Distributes traffic"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain rate limiting algorithms.",
+        "marks": 2,
+        "model_answer": "Rate Limiting Algorithms:\n1. Fixed Window: Simple counting\n2. Sliding Window: Moving timeframe\n3. Token Bucket: Token-based access\n4. Leaky Bucket: Constant outflow"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "List domain-driven design principles.",
+        "marks": 2,
+        "model_answer": "DDD Principles:\n1. Ubiquitous Language\n2. Bounded Contexts\n3. Aggregates\n4. Entities\n5. Value Objects"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain eventual consistency.",
+        "marks": 2,
+        "model_answer": "Eventual Consistency:\n- Temporary inconsistency allowed\n- Eventually synchronized\n- High availability\n- Partition tolerant\n- Conflict resolution needed"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe API versioning strategies.",
+        "marks": 2,
+        "model_answer": "API Versioning Strategies:\n1. URI: /api/v1/resource\n2. Header: Custom-Version: 1.0\n3. Parameter: ?version=1.0\n4. Content-Type: application/vnd.api+json;version=1.0"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain feature toggles and benefits.",
+        "marks": 2,
+        "model_answer": "Feature Toggles:\n- Runtime feature switching\n- Controlled deployment\nBenefits:\n1. Safe deployment\n2. A/B testing\n3. Gradual rollout"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe test-driven development cycle.",
+        "marks": 2,
+        "model_answer": "TDD Cycle:\n1. Red: Write failing test\n2. Green: Write minimal code to pass\n3. Refactor: Improve code\nBenefits: Better design, fewer bugs"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain database sharding strategies.",
+        "marks": 2,
+        "model_answer": "Sharding Strategies:\n1. Range Based: Key ranges\n2. Hash Based: Hash function\n3. Directory Based: Lookup table\nBenefits: Better scalability"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe event sourcing pattern.",
+        "marks": 2,
+        "model_answer": "Event Sourcing:\n- Store state changes as events\n- Complete audit trail\n- Time travel capability\n- Event replay for recovery"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain circuit breaker pattern.",
+        "marks": 2,
+        "model_answer": "Circuit Breaker States:\n1. Closed: Normal operation\n2. Open: Stop requests\n3. Half-Open: Test recovery\nPurpose: Prevent cascade failures"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "List behavior-driven development principles.",
+        "marks": 2,
+        "model_answer": "BDD Principles:\n1. Ubiquitous Language\n2. Given-When-Then format\n3. Living Documentation\n4. Stakeholder Collaboration"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain blue-green deployment.",
+        "marks": 2,
+        "model_answer": "Blue-Green Deployment:\n- Two identical environments\n- Zero downtime updates\n- Easy rollback\n- Production-like testing"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe API gateway responsibilities.",
+        "marks": 2,
+        "model_answer": "API Gateway:\n1. Authentication/Authorization\n2. Rate Limiting\n3. Request Routing\n4. Response Transformation"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain chaos engineering principles.",
+        "marks": 2,
+        "model_answer": "Chaos Engineering:\n1. Define steady state\n2. Simulate real failures\n3. Run in production\n4. Minimize blast radius"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "List zero-trust security principles.",
+        "marks": 2,
+        "model_answer": "Zero-Trust Principles:\n1. Never trust, always verify\n2. Least privilege access\n3. Micro-segmentation\n4. Continuous monitoring"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe data lake components.",
+        "marks": 2,
+        "model_answer": "Data Lake Components:\n1. Data Ingestion\n2. Raw Storage\n3. Processing Layer\n4. Access Layer"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain service mesh features.",
+        "marks": 2,
+        "model_answer": "Service Mesh Features:\n1. Service Discovery\n2. Load Balancing\n3. Mutual TLS\n4. Observability"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "List GitOps principles.",
+        "marks": 2,
+        "model_answer": "GitOps Principles:\n1. Git as single source of truth\n2. Declarative configuration\n3. Automated synchronization\n4. Continuous reconciliation"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain event storming process.",
+        "marks": 2,
+        "model_answer": "Event Storming Steps:\n1. Domain Events Discovery\n2. Command Identification\n3. Aggregate Definition\n4. Bounded Context Mapping"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe infrastructure as code benefits.",
+        "marks": 2,
+        "model_answer": "IaC Benefits:\n1. Consistent environments\n2. Version controlled\n3. Automated deployment\n4. Self-documenting"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Explain CQRS pattern components.",
+        "marks": 2,
+        "model_answer": "CQRS Components:\n1. Command Side: Write operations\n2. Query Side: Read operations\n3. Event Store: State changes\n4. Sync Mechanism"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "List serverless architecture characteristics.",
+        "marks": 2,
+        "model_answer": "Serverless Characteristics:\n1. Event-driven execution\n2. Auto-scaling\n3. Pay-per-use\n4. Managed infrastructure"
+    },
+    {
+        "question_type": "subjective",
+        "question_text": "Describe defensive programming practices.",
+        "marks": 2,
+        "model_answer": "Defensive Programming:\n1. Input validation\n2. Error handling\n3. Assertions\n4. Secure defaults"
+    }
+] 

@@ -1,0 +1,146 @@
+{% extends "student/base.html" %}
+
+{% block title %}Settings - ExamPro{% endblock %}
+
+{% block page_title %}Settings{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Profile Information -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Profile Information</h5>
+                    <form method="POST" action="{{ url_for('student.update_profile') }}">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" value="{{ current_user.username }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ current_user.email }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" value="{{ current_user.phone }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Change Password -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Change Password</h5>
+                    <form method="POST" action="{{ url_for('student.change_password') }}">
+                        <div class="mb-3">
+                            <label for="current_password" class="form-label">Current Password</label>
+                            <input type="password" class="form-control" id="current_password" name="current_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="new_password" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="new_password" name="new_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Change Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Settings -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Notification Settings</h5>
+                    <form method="POST" action="{{ url_for('student.update_notifications') }}">
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="email_notifications" name="email_notifications" {% if current_user.email_notifications %}checked{% endif %}>
+                                <label class="form-check-label" for="email_notifications">Email Notifications</label>
+                            </div>
+                            <small class="text-muted">Receive email notifications about new exams and results</small>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="reminder_notifications" name="reminder_notifications" {% if current_user.reminder_notifications %}checked{% endif %}>
+                                <label class="form-check-label" for="reminder_notifications">Exam Reminders</label>
+                            </div>
+                            <small class="text-muted">Receive reminders before exam due dates</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Preferences</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Settings -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Account Settings</h5>
+                    <div class="mb-4">
+                        <h6 class="text-muted mb-3">Account Status</h6>
+                        <span class="badge bg-success">Active</span>
+                    </div>
+                    <div class="mb-4">
+                        <h6 class="text-muted mb-3">Account Type</h6>
+                        <span class="badge bg-primary">Student</span>
+                    </div>
+                    <div class="mb-4">
+                        <h6 class="text-muted mb-3">Member Since</h6>
+                        <span>{{ current_user.created_at.strftime('%B %d, %Y') }}</span>
+                    </div>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deactivateModal">
+                        Deactivate Account
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Deactivate Account Modal -->
+<div class="modal fade" id="deactivateModal" tabindex="-1" aria-labelledby="deactivateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deactivateModalLabel">Deactivate Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to deactivate your account? This action cannot be undone.</p>
+                <form method="POST" action="{{ url_for('student.deactivate_account') }}" id="deactivateForm">
+                    <div class="mb-3">
+                        <label for="confirm_deactivate" class="form-label">Type "DEACTIVATE" to confirm</label>
+                        <input type="text" class="form-control" id="confirm_deactivate" name="confirm_deactivate" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" form="deactivateForm" class="btn btn-danger">Deactivate Account</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('deactivateForm').addEventListener('submit', function(e) {
+    const confirmText = document.getElementById('confirm_deactivate').value;
+    if (confirmText !== 'DEACTIVATE') {
+        e.preventDefault();
+        alert('Please type "DEACTIVATE" to confirm account deactivation.');
+    }
+});
+</script>
+{% endblock %} 
