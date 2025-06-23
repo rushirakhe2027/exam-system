@@ -876,6 +876,9 @@ def results():
     # Get only graded submissions for results page
     submissions = MongoManager.get_graded_submissions(current_user.id)
     
+    print(f"\n=== RESULTS DEBUG ===")
+    print(f"Found {len(submissions) if submissions else 0} graded submissions")
+    
     if submissions:
         for submission in submissions:
             try:
@@ -909,11 +912,15 @@ def results():
                     
                     # Store calculated percentage for template use
                     submission.calculated_percentage = percentage
+                    
+                    print(f"Submission {submission.id}: score={submission.score}, max_score={submission.max_score}, percentage={percentage}, grade={submission.grade}")
                 else:
                     submission.grade = 'Pending'
                     submission.grade_color = 'secondary'
                     submission.pass_status = 'Pending'
                     submission.calculated_percentage = 0
+                    
+                    print(f"Submission {submission.id}: No score - set to Pending")
                     
             except Exception as e:
                 logger.error(f"Error fetching exam for submission {submission.id}: {str(e)}")

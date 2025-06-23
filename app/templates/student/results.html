@@ -57,23 +57,67 @@
                             </span>
                         </td>
                                         <td>
-                                            <span class="badge bg-{{ submission.grade_color }} fs-6 px-3 py-2">
-                                                Grade {{ submission.grade }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            {% if submission.pass_status == 'PASS' %}
-                                                <span class="badge bg-success">
-                                                    <i class="fas fa-check me-1"></i>{{ submission.pass_status }}
-                                                </span>
-                                            {% elif submission.pass_status == 'FAIL' %}
-                                                <span class="badge bg-danger">
-                                                    <i class="fas fa-times me-1"></i>{{ submission.pass_status }}
+                                            <!-- Calculate grade in template as fallback -->
+                                            {% if submission.grade is defined %}
+                                                <span class="badge bg-{{ submission.grade_color }} fs-6 px-3 py-2">
+                                                    Grade {{ submission.grade }}
                                                 </span>
                                             {% else %}
-                                                <span class="badge bg-secondary">
-                                                    <i class="fas fa-clock me-1"></i>{{ submission.pass_status }}
-                                                </span>
+                                                {% if submission.calculated_percentage is defined %}
+                                                    {% set percentage = submission.calculated_percentage %}
+                                                {% elif submission.max_score and submission.max_score > 0 %}
+                                                    {% set percentage = (submission.score / submission.max_score * 100) %}
+                                                {% elif submission.percentage is not none %}
+                                                    {% set percentage = submission.percentage %}
+                                                {% else %}
+                                                    {% set percentage = submission.score or 0 %}
+                                                {% endif %}
+                                                
+                                                {% if percentage >= 70 %}
+                                                    <span class="badge bg-success fs-6 px-3 py-2">Grade A</span>
+                                                {% elif percentage >= 35 %}
+                                                    <span class="badge bg-warning fs-6 px-3 py-2">Grade B</span>
+                                                {% else %}
+                                                    <span class="badge bg-danger fs-6 px-3 py-2">Grade F</span>
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <!-- Calculate status in template as fallback -->
+                                            {% if submission.pass_status is defined %}
+                                                {% if submission.pass_status == 'PASS' %}
+                                                    <span class="badge bg-success">
+                                                        <i class="fas fa-check me-1"></i>{{ submission.pass_status }}
+                                                    </span>
+                                                {% elif submission.pass_status == 'FAIL' %}
+                                                    <span class="badge bg-danger">
+                                                        <i class="fas fa-times me-1"></i>{{ submission.pass_status }}
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge bg-secondary">
+                                                        <i class="fas fa-clock me-1"></i>{{ submission.pass_status }}
+                                                    </span>
+                                                {% endif %}
+                                            {% else %}
+                                                {% if submission.calculated_percentage is defined %}
+                                                    {% set percentage = submission.calculated_percentage %}
+                                                {% elif submission.max_score and submission.max_score > 0 %}
+                                                    {% set percentage = (submission.score / submission.max_score * 100) %}
+                                                {% elif submission.percentage is not none %}
+                                                    {% set percentage = submission.percentage %}
+                                                {% else %}
+                                                    {% set percentage = submission.score or 0 %}
+                                                {% endif %}
+                                                
+                                                {% if percentage >= 35 %}
+                                                    <span class="badge bg-success">
+                                                        <i class="fas fa-check me-1"></i>PASS
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge bg-danger">
+                                                        <i class="fas fa-times me-1"></i>FAIL
+                                                    </span>
+                                                {% endif %}
                                             {% endif %}
                                         </td>
                                         <td>
@@ -97,9 +141,28 @@
                                             <i class="fas fa-chart-pie me-2"></i>Results Summary
                                         </h6>
                                         <div class="row text-center">
-                                            {% set grade_a_count = submissions | selectattr('grade', 'equalto', 'A') | list | length %}
-                                            {% set grade_b_count = submissions | selectattr('grade', 'equalto', 'B') | list | length %}
-                                            {% set grade_f_count = submissions | selectattr('grade', 'equalto', 'F') | list | length %}
+                                            {% set grade_a_count = 0 %}
+                                            {% set grade_b_count = 0 %}
+                                            {% set grade_f_count = 0 %}
+                                            {% for submission in submissions %}
+                                                {% if submission.calculated_percentage is defined %}
+                                                    {% set percentage = submission.calculated_percentage %}
+                                                {% elif submission.max_score and submission.max_score > 0 %}
+                                                    {% set percentage = (submission.score / submission.max_score * 100) %}
+                                                {% elif submission.percentage is not none %}
+                                                    {% set percentage = submission.percentage %}
+                                                {% else %}
+                                                    {% set percentage = submission.score or 0 %}
+                                                {% endif %}
+                                                
+                                                {% if percentage >= 70 %}
+                                                    {% set grade_a_count = grade_a_count + 1 %}
+                                                {% elif percentage >= 35 %}
+                                                    {% set grade_b_count = grade_b_count + 1 %}
+                                                {% else %}
+                                                    {% set grade_f_count = grade_f_count + 1 %}
+                                                {% endif %}
+                                            {% endfor %}
                                             {% set total_graded = submissions | length %}
                                             
                                             <div class="col-md-3">
