@@ -896,47 +896,7 @@ def results():
 def settings():
     return render_template('student/settings.html')
 
-@student_bp.route('/update_profile', methods=['POST'])
-@login_required
-@student_required
-def update_profile():
-    try:
-        name = request.form.get('name', '').strip()
-        email = request.form.get('email', '').strip()
-        
-        if not name:
-            flash('Name is required.', 'error')
-            return redirect(url_for('student.settings'))
-        
-        if not email:
-            flash('Email is required.', 'error')
-            return redirect(url_for('student.settings'))
-        
-        existing_user = MongoManager.get_user_by_email(email)
-        if existing_user and str(existing_user.id) != str(current_user.id):
-            flash('Email is already taken by another user.', 'error')
-            return redirect(url_for('student.settings'))
-        
-        update_data = {
-            'name': name,
-            'email': email,
-            'updated_at': datetime.utcnow()
-        }
-        
-        success = MongoManager.update_user_profile(current_user.id, update_data)
-        
-        if success:
-            current_user.name = name
-            current_user.email = email
-            flash('Profile updated successfully!', 'success')
-        else:
-            flash('Failed to update profile. Please try again.', 'error')
-    
-    except Exception as e:
-        logger.error(f"Error updating profile for user {current_user.id}: {str(e)}")
-        flash('An error occurred while updating your profile.', 'error')
-    
-    return redirect(url_for('student.settings'))
+# Profile update route removed - settings page is now read-only
 
 @student_bp.route('/exam/<exam_id>/submit', methods=['POST'])
 @login_required
