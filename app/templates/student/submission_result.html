@@ -74,8 +74,8 @@ Detailed Results Type: {{ submission.detailed_results.__class__.__name__ if subm
                         </div>
                     </div>
 
-                    <!-- MCQ Results Summary for Objective Exams -->
-                    {% if exam.exam_format == 'objective' and submission.is_graded %}
+                    <!-- Results Summary for All Exam Types -->
+                    {% if submission.is_graded %}
                     <div class="row mb-4">
                         <div class="col-md-3">
                             <div class="card bg-light">
@@ -89,7 +89,7 @@ Detailed Results Type: {{ submission.detailed_results.__class__.__name__ if subm
                             <div class="card bg-light">
                                 <div class="card-body text-center">
                                     <h6 class="text-muted mb-2">Total Score</h6>
-                                    <h3 class="mb-0">{{ submission.score or 0 }}/{{ submission.max_score or submission.questions|length * 2 }}</h3>
+                                    <h3 class="mb-0">{{ submission.score or 0 }}/{{ submission.max_score or (submission.questions|length * 2) }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -124,22 +124,16 @@ Detailed Results Type: {{ submission.detailed_results.__class__.__name__ if subm
                         </div>
                     </div>
 
-                    <!-- 3-Level Grading Summary -->
+                    <!-- 3-Level Grading Analysis (For Objective Exams) -->
+                    {% if exam.exam_format == 'objective' %}
                     {% set correct_count = 0 %}
                     {% set incorrect_count = 0 %}
                     {% set unanswered_count = 0 %}
                     
-                    <!-- DEBUG: Check what data we have -->
-                    <!-- DEBUG: detailed_results length: {{ submission.detailed_results|length if submission.detailed_results else 'None' }} -->
-                    <!-- DEBUG: answers length: {{ submission.answers|length if submission.answers else 'None' }} -->
-                    
                     <!-- Calculate grading analysis from score data -->
                     {% set total_questions = submission.questions|length %}
                     {% set marks_per_question = 2 %}
-                    {% set total_possible_marks = total_questions * marks_per_question %}
                     {% set earned_marks = submission.score or 0 %}
-                    
-                    <!-- Calculate correct answers from score -->
                     {% set correct_count = (earned_marks / marks_per_question)|int %}
                     {% set answered_questions = submission.answers|length %}
                     {% set incorrect_count = answered_questions - correct_count %}
@@ -188,44 +182,7 @@ Detailed Results Type: {{ submission.detailed_results.__class__.__name__ if subm
                             </div>
                         </div>
                     </div>
-                    {% else %}
-                    <!-- Regular Results Summary for Non-Objective Exams -->
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <div class="card bg-light">
-                                <div class="card-body text-center">
-                                    <h6 class="text-muted mb-2">Questions Answered</h6>
-                                    <h3 class="mb-0">{{ submission.processed_answers|length if submission.processed_answers else 0 }}/{{ submission.questions|length }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                        {% if submission.is_graded %}
-                        <div class="col-md-3">
-                            <div class="card bg-light">
-                                <div class="card-body text-center">
-                                    <h6 class="text-muted mb-2">Total Score</h6>
-                                    <h3 class="mb-0">{{ submission.score }}/{{ submission.max_score }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card bg-light">
-                                <div class="card-body text-center">
-                                    <h6 class="text-muted mb-2">Percentage</h6>
-                                    <h3 class="mb-0">{{ "%.1f"|format((submission.score / submission.max_score * 100) if submission.score is not none and submission.max_score > 0 else 0) }}%</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card {% if submission.pass_fail == 'PASS' %}bg-success{% else %}bg-danger{% endif %} text-white">
-                                <div class="card-body text-center">
-                                    <h6 class="mb-2">Status</h6>
-                                    <h3 class="mb-0">{{ submission.pass_fail or 'Pending' }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
+                    {% endif %}
                     {% endif %}
 
                     <!-- Questions and Answers Section -->
@@ -243,42 +200,23 @@ Detailed Results Type: {{ submission.detailed_results.__class__.__name__ if subm
                             {% for question in submission.questions %}
                             {% set loop_index = loop.index0 %}
                             {% set question_id = question.id|string if question.id else question._id|string %}
+                            {% set student_answer = submission.answers.get(question_id, '') %}
                             
-                            <!-- Get data from detailed_results if available, otherwise fallback to answers -->
-                            {% if submission.detailed_results and loop_index < submission.detailed_results|length %}
-                                {% set result_data = submission.detailed_results[loop_index] %}
-                                {% set student_answer = result_data.student_answer or '' %}
-                                {% set is_correct = result_data.is_correct %}
-                                {% set awarded_marks = result_data.awarded_marks %}
-                                {% set correct_answer = result_data.correct_answer %}
-                            {% else %}
-                                                <!-- Fallback to processed answers data (now simplified) -->
-                {% set student_answer = submission.processed_answers[loop_index].student_answer if submission.processed_answers and loop_index < submission.processed_answers|length else '' %}
-                                {% set is_correct = False %}
-                                {% set awarded_marks = 0 %}
-                                {% set correct_answer_from_data = '' %}
-                                
-                                <!-- Determine correct answer - handle numeric indices -->
-                                {% set correct_answer = correct_answer_from_data %}
-                                {% if not correct_answer and question.correct_answer is defined %}
-                                    {% set raw_correct_answer = question.correct_answer %}
-                                    {% if raw_correct_answer is number or (raw_correct_answer is string and raw_correct_answer.isdigit()) %}
-                                        {% set correct_index = raw_correct_answer|int %}
-                                        {% if question.options and correct_index >= 0 and correct_index < question.options|length %}
-                                            {% set correct_answer = question.options[correct_index] %}
-                                        {% else %}
-                                            {% set correct_answer = raw_correct_answer|string %}
-                                        {% endif %}
-                                    {% else %}
-                                        {% set correct_answer = raw_correct_answer|string %}
+                            <!-- Calculate correctness for objective questions -->
+                            {% if exam.exam_format == 'objective' and submission.is_graded %}
+                                {% set correct_answer = question.correct_answer %}
+                                {% if question.correct_answer is number or (question.correct_answer is string and question.correct_answer.isdigit()) %}
+                                    {% set correct_index = question.correct_answer|int %}
+                                    {% if question.options and correct_index >= 0 and correct_index < question.options|length %}
+                                        {% set correct_answer = question.options[correct_index] %}
                                     {% endif %}
                                 {% endif %}
-                                
-                                <!-- Recalculate correctness if needed -->
-                                {% if not answer_data is mapping and student_answer and correct_answer %}
-                                    {% set is_correct = (student_answer == correct_answer) %}
-                                    {% set awarded_marks = question.marks|default(2) if is_correct else 0 %}
-                                {% endif %}
+                                {% set is_correct = (student_answer == correct_answer) if student_answer and correct_answer else false %}
+                                {% set awarded_marks = question.marks|default(2) if is_correct else 0 %}
+                            {% else %}
+                                {% set is_correct = false %}
+                                {% set awarded_marks = 0 %}
+                                {% set correct_answer = '' %}
                             {% endif %}
                             
                             <div class="question-container mb-4 p-4 border rounded {% if exam.exam_format == 'objective' and submission.is_graded %}{% if is_correct %}border-success bg-light{% elif student_answer %}border-warning bg-light{% else %}border-secondary bg-light{% endif %}{% else %}bg-light{% endif %}">
@@ -309,7 +247,7 @@ Detailed Results Type: {{ submission.detailed_results.__class__.__name__ if subm
                                 </div>
 
                                 {% if exam.exam_format == 'objective' and question.question_type == 'multiple_choice' %}
-                                    <!-- MCQ Display with 3-Level Grading -->
+                                    <!-- MCQ Display -->
                                     <div class="row">
                                         <div class="col-md-8">
                                             <h6 class="text-primary mb-3">Options:</h6>
@@ -379,7 +317,7 @@ Detailed Results Type: {{ submission.detailed_results.__class__.__name__ if subm
                                             <h6 class="text-primary mb-2">Your Answer:</h6>
                                             <div class="answer-box p-3 bg-white rounded border">
                                                 {% if student_answer %}
-                                                    {{ student_answer|nl2br }}
+                                                    <pre class="mb-0" style="white-space: pre-wrap; font-family: inherit;">{{ student_answer }}</pre>
                                                 {% else %}
                                                     <em class="text-muted">No answer provided</em>
                                                 {% endif %}
@@ -390,24 +328,24 @@ Detailed Results Type: {{ submission.detailed_results.__class__.__name__ if subm
                                         <div class="model-answer-section mt-3">
                                             <h6 class="text-success mb-2">Model Answer:</h6>
                                             <div class="model-answer-box p-3 bg-success bg-opacity-10 rounded border border-success">
-                                                {{ question.model_answer|nl2br }}
+                                                <pre class="mb-0" style="white-space: pre-wrap; font-family: inherit;">{{ question.model_answer }}</pre>
                                             </div>
                                         </div>
                                         {% endif %}
                                     </div>
 
-                                    <!-- Marks and Feedback Section for Subjective -->
+                                    <!-- Marks Section for Subjective -->
                                     {% if submission.is_graded %}
                                     <div class="marks-section mt-3 p-2 bg-light rounded">
                                         <div class="row align-items-center">
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
                                                 <strong>Marks Obtained:</strong>
                                                 <span class="badge {% if awarded_marks > 0 %}bg-success{% else %}bg-danger{% endif %} ms-2">
                                                     {{ awarded_marks }}/{{ question.marks|default(1) }}
                                                 </span>
                                             </div>
                                             {% if question.feedback %}
-                                            <div class="col-md-8">
+                                            <div class="col-md-6">
                                                 <strong>Feedback:</strong>
                                                 <span class="ms-2">{{ question.feedback }}</span>
                                             </div>
@@ -421,7 +359,7 @@ Detailed Results Type: {{ submission.detailed_results.__class__.__name__ if subm
                         </div>
                     </div>
 
-                    {% if submission.warning_count_at_submission > 0 %}
+                    {% if submission.warning_count_at_submission and submission.warning_count_at_submission > 0 %}
                     <div class="alert alert-warning">
                         <i class="fas fa-exclamation-triangle me-2"></i>
                         <strong>Note:</strong> {{ submission.warning_count_at_submission }} proctoring violation(s) were recorded during this exam.
@@ -457,4 +395,41 @@ function toggleDebug() {
 }
 </script>
 
+<style>
+.question-container {
+    transition: all 0.2s ease;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.option {
+    transition: all 0.2s ease;
+    cursor: default;
+}
+
+.grading-summary {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid #dee2e6;
+}
+
+.answer-box {
+    min-height: 60px;
+    background: #fafafa;
+}
+
+.model-answer-box {
+    min-height: 60px;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.badge {
+    font-size: 0.875rem;
+}
+</style>
 {% endblock %} 

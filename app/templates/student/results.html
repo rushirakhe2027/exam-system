@@ -45,15 +45,17 @@
                                                 {{ submission.submitted_at.strftime('%I:%M %p') }}
                                             </small>
                                         </td>
-                                        <td>
-                                            <span class="fw-bold">
-                                                {% if submission.score is not none %}
-                                                    {{ "%.1f"|format(submission.score) }}%
-                                                {% else %}
-                                                    N/A
-                                                {% endif %}
-                                            </span>
-                                        </td>
+                                                                <td>
+                            <span class="fw-bold">
+                                {% if submission.calculated_percentage is defined %}
+                                    {{ "%.1f"|format(submission.calculated_percentage) }}%
+                                {% elif submission.score is not none %}
+                                    {{ "%.1f"|format(submission.score) }}%
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </span>
+                        </td>
                                         <td>
                                             <span class="badge bg-{{ submission.grade_color }} fs-6 px-3 py-2">
                                                 Grade {{ submission.grade }}

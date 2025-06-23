@@ -882,13 +882,23 @@ def results():
                 exam = MongoManager.get_exam_by_id(submission.exam_id)
                 submission.exam = exam
                 
-                # Calculate grade based on score using 3-tier system
+                # Calculate grade based on percentage using 3-tier system
                 if hasattr(submission, 'score') and submission.score is not None:
-                    if submission.score >= 70:
+                    # Calculate percentage from score
+                    if hasattr(submission, 'max_score') and submission.max_score and submission.max_score > 0:
+                        percentage = (submission.score / submission.max_score) * 100
+                    elif hasattr(submission, 'percentage') and submission.percentage is not None:
+                        percentage = submission.percentage
+                    else:
+                        # Fallback: assume score is already a percentage
+                        percentage = submission.score
+                    
+                    # Apply 3-tier grading system
+                    if percentage >= 70:
                         submission.grade = 'A'
                         submission.grade_color = 'success'
                         submission.pass_status = 'PASS'
-                    elif submission.score >= 35:
+                    elif percentage >= 35:
                         submission.grade = 'B' 
                         submission.grade_color = 'warning'
                         submission.pass_status = 'PASS'
@@ -896,10 +906,14 @@ def results():
                         submission.grade = 'F'
                         submission.grade_color = 'danger'
                         submission.pass_status = 'FAIL'
+                    
+                    # Store calculated percentage for template use
+                    submission.calculated_percentage = percentage
                 else:
                     submission.grade = 'Pending'
                     submission.grade_color = 'secondary'
                     submission.pass_status = 'Pending'
+                    submission.calculated_percentage = 0
                     
             except Exception as e:
                 logger.error(f"Error fetching exam for submission {submission.id}: {str(e)}")
